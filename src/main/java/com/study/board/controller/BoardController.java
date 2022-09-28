@@ -16,7 +16,7 @@ public class BoardController {
     // 게시글 작성
      @GetMapping("/board/write") //localhost:9090/board/write로 주소연결
      public String boardWriteForm(){ //boardWrite을 불러올 boardWriteForm 함수 작성
-        return "boardWrite";
+        return "board-write";
      }
 
      @PostMapping("/board/writepro")
@@ -29,12 +29,13 @@ public class BoardController {
      @GetMapping("/board/list")
      public String boardList(Model model) {
          model.addAttribute( "list", boardService.boardList());
-        return "boardList";
+        return "board-list";
     }
 
     // 게시글 디테일
-    @GetMapping("/board/detail")
-    public String boardDetail(){
-         return  "boardDetail";
+    @GetMapping("/board/detail") // localhost:9090/board/detail?id=1
+    public String boardDetail(Model model, Integer id) {
+         model.addAttribute("board", boardService.boardDetail(id));
+         return  "board-detail";
     }
 }
