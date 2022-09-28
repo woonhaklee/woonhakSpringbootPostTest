@@ -21,7 +21,7 @@ public class BoardController {
 
      @PostMapping("/board/writepro")
      public String boardWritePro(Board board){
-        boardService.write(board);
+        boardService.boardWrite(board);
         return "";
      }
 
@@ -37,5 +37,12 @@ public class BoardController {
     public String boardDetail(Model model, Integer id) {
          model.addAttribute("board", boardService.boardDetail(id));
          return  "board-detail";
+    }
+
+    // 게시글 삭제
+    @GetMapping("/board/delete")
+    public String boardDelete(Integer id) {
+        boardService.boardDelete(id);
+        return "redirect:/board/list";
     }
 }
