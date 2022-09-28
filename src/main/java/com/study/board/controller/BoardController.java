@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
@@ -28,7 +29,7 @@ public class BoardController {
      // 게시글 리스트
      @GetMapping("/board/list")
      public String boardList(Model model) {
-         model.addAttribute( "list", boardService.boardList());
+        model.addAttribute( "list", boardService.boardList());
         return "board-list";
     }
 
@@ -43,6 +44,24 @@ public class BoardController {
     @GetMapping("/board/delete")
     public String boardDelete(Integer id) {
         boardService.boardDelete(id);
+        return "redirect:/board/list";
+    }
+
+    // 게시글 수정
+    @GetMapping("/board/modify/{id}")
+    public String boardModify(@PathVariable("id") Integer id, Model model) {
+        model.addAttribute("board", boardService.boardDetail(id));
+        return "board-modify";
+    }
+
+    // 게시글 수정 업데이트
+    @PostMapping("/board/update/{id}")
+    public String boardUpdate(@PathVariable("id") Integer id, Board board) {
+        Board boardTemp = boardService.boardDetail(id);
+        boardTemp.setTitle(board.getTitle());
+        boardTemp.setContent(board.getContent());
+
+        boardService.boardWrite(boardTemp);
         return "redirect:/board/list";
     }
 }
