@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 // 컨트롤러 선언
@@ -24,8 +25,9 @@ public class BoardController {
      }
 
      @PostMapping("/board/writepro")
-     public String boardWritePro(Board board, Model model){
-        boardService.boardWrite(board);
+     public String boardWritePro(Board board, Model model, MultipartFile file) throws Exception{
+
+        boardService.boardWrite(board, file);
         model.addAttribute("boardMessage", "글 작성이 완료되었습니다.");
         model.addAttribute("searchUrl", "/board/list");
         return "board-message";
@@ -33,7 +35,7 @@ public class BoardController {
 
      // 게시글 리스트
      @GetMapping("/board/list")
-     public String boardList(Model model) {
+     public String boardList(Model model, Pageable) {
         model.addAttribute( "list", boardService.boardList());
         return "board-list";
     }
@@ -64,11 +66,11 @@ public class BoardController {
 
     // 게시글 수정 업데이트
     @PostMapping("/board/update/{id}")
-    public String boardUpdate(@PathVariable("id") Integer id, Board board, Model model) {
+    public String boardUpdate(@PathVariable("id") Integer id, Board board, Model model, MultipartFile file) throws Exception {
         Board boardTemp = boardService.boardDetail(id);
         boardTemp.setTitle(board.getTitle());
         boardTemp.setContent(board.getContent());
-        boardService.boardWrite(boardTemp);
+        boardService.boardWrite(boardTemp, file);
 
         model.addAttribute("boardMessage", "글 수정이 완료되었습니다.");
         model.addAttribute("searchUrl", "/board/list");
