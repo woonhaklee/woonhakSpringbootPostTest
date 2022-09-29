@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
+// 컨트롤러 선언
+// 템플릿(캄포넌트)와 서버연동
+
 public class BoardController {
     @Autowired
     private BoardService boardService;
@@ -21,9 +24,11 @@ public class BoardController {
      }
 
      @PostMapping("/board/writepro")
-     public String boardWritePro(Board board){
+     public String boardWritePro(Board board, Model model){
         boardService.boardWrite(board);
-        return "";
+        model.addAttribute("boardMessage", "글 작성이 완료되었습니다.");
+        model.addAttribute("searchUrl", "/board/list");
+        return "board-message";
      }
 
      // 게시글 리스트
@@ -42,26 +47,31 @@ public class BoardController {
 
     // 게시글 삭제
     @GetMapping("/board/delete")
-    public String boardDelete(Integer id) {
+    public String boardDelete(Integer id, Model model) {
         boardService.boardDelete(id);
-        return "redirect:/board/list";
+        model.addAttribute("boardMessage", "글 삭제가 완료되었습니다.");
+        model.addAttribute("searchUrl", "/board/list");
+        return "board-message";
     }
 
     // 게시글 수정
     @GetMapping("/board/modify/{id}")
     public String boardModify(@PathVariable("id") Integer id, Model model) {
         model.addAttribute("board", boardService.boardDetail(id));
+
         return "board-modify";
     }
 
     // 게시글 수정 업데이트
     @PostMapping("/board/update/{id}")
-    public String boardUpdate(@PathVariable("id") Integer id, Board board) {
+    public String boardUpdate(@PathVariable("id") Integer id, Board board, Model model) {
         Board boardTemp = boardService.boardDetail(id);
         boardTemp.setTitle(board.getTitle());
         boardTemp.setContent(board.getContent());
-
         boardService.boardWrite(boardTemp);
-        return "redirect:/board/list";
+
+        model.addAttribute("boardMessage", "글 수정이 완료되었습니다.");
+        model.addAttribute("searchUrl", "/board/list");
+        return "board-message";
     }
 }

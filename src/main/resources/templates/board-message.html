@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <titlle>게시판 alert 메시지</title>
+</head>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var boardMessage = [[${boardMessage}]];
+    alert(boardMessage);
+
+    location.replace([[${searchUrl}]]);
+    /*]]>*/
+</script>
+<body>
+
+</body>
+</html>
