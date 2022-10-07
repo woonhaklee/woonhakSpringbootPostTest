@@ -43,4 +43,10 @@ public class BoardService {
     public void boardDelete(Integer id) {
         boardRepository.deleteById(id);
     }
+
+    // 게시글 검색
+    public Page<Board> boardSearchList(String searchKeyword, Pageable pageable) {
+        // repository에서 Pageable타입의 searchKeyword를 받아온다
+        return boardRepository.findByTitleContaining(searchKeyword, pageable);
+    }
 }

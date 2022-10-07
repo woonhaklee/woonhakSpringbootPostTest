@@ -39,9 +39,26 @@ public class BoardController {
 
      // 게시글 리스트
      @GetMapping("/board/list")
-     public String boardList(Model model, @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<Board> list = boardService.boardList(pageable);
+     public String boardList( Model model,
+          // 페이징
+          @PageableDefault(
+                  page = 0,
+                  size = 10,
+                  sort = "id",
+                  direction = Sort.Direction.DESC) Pageable pageable,
+          // 검색
+          String searchKeyword
+          ) {
+        Page<Board> list = null;
 
+         // 검색
+         if(searchKeyword == null) {
+             list = boardService.boardList(pageable);
+         }else{
+             list = boardService.boardSearchList(searchKeyword, pageable);
+         }
+
+        // 페이징
         int nowPage = list.getPageable().getPageNumber() + 1; // 페이지가 0부터 시작하기 떄문에 출력시 1을 위한 설정
         // int nowPage = pageable().getPageNumber();
         int startPage = Math.max(nowPage - 4, 1); //  Math 자바문법을 이용한 최대 1 이하로 출력시 지정
