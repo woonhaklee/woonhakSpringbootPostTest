@@ -9,9 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
@@ -19,6 +17,34 @@ import org.springframework.web.multipart.MultipartFile;
 // 템플릿(캄포넌트)와 서버연동
 
 public class BoardController {
+
+    // 컨트롤러 API 방식이해하기
+    @GetMapping("hello-api")
+    @ResponseBody
+    public Hello helloApi(@RequestParam("name") String name){
+        // @RequestParam으로 name을 받고
+        Hello hello = new Hello();
+        // Hello 새로운 객체를 만든다.
+        // 객체를 return하면 {}JSON을 기본으로해서 반환한다.
+        hello.setName(name);
+        // setName으로 네임을 받아온다.
+        return hello;
+    }
+    // 아래에 Hello라는 API를 만들고
+    // 자바빈/ 프로퍼티 접근방식
+    static class Hello{
+        private String name;
+
+        public  String getName(){
+            return name;
+        }
+        // 꺼낼때는 getName
+        public void setName(String name){
+            this.name = name;
+        }
+        // 넣을떄는 setName
+    }
+
     @Autowired
     private BoardService boardService;
 

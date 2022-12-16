@@ -18,7 +18,7 @@ public class Board { // mysql의 Column Name과 Datatype와 맞게 설정
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     // @GeneratedValue
-    // 기본 키를 자동 생성해주는 어노테이션입니다.
+    // 기본 키를 자동 생성해주는 어노테이션E니다.
     // 속성으로는 strategy가 있는데, 이를 통해 자동 생성 전략을 지정해 줄 수 있습니다.
     // 이제부터 각각의 전략들을 살펴보도록 하겠습니다.
 
